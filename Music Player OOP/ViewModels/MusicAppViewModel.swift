@@ -1,36 +1,13 @@
 import SwiftUI
 import Combine
 
-// ❌ MASALAH BESAR: ViewModel ini harus menangani 3 tipe player secara terpisah.
-//    Setiap kali tambah tipe player baru, harus ubah class ini!
+// Versi latihan ini sengaja disederhanakan agar fokus pembelajaran tetap di
+// encapsulation, abstraction, inheritance, dan protocol.
 class MusicAppViewModel: ObservableObject {
-    @Published var musicPlayer = MusicPlayer()
-    @Published var podcastPlayer = PodcastPlayer()
-    @Published var radioPlayer = RadioPlayer()
+    let musicPlayer = MusicPlayer()
+    let podcastPlayer = PodcastPlayer()
 
     @Published var currentTab: Int = 0
-    @Published var showingNowPlaying: Bool = false
-
-    // ❌ MASALAH: Tidak ada cara unified untuk tahu "apakah ada sesuatu yang sedang play"
-    //    Harus cek satu-satu!
-    var isAnythingPlaying: Bool {
-        return musicPlayer.isPlaying || podcastPlayer.isPlaying || radioPlayer.isPlaying
-    }
-
-    // ❌ MASALAH: Untuk stop semua, harus panggil stop() di masing-masing secara manual
-    func stopAll() {
-        musicPlayer.stop()      // Kalau ada player ke-4, harus tambah di sini juga!
-        podcastPlayer.stop()
-        radioPlayer.stop()
-    }
-
-    // ❌ MASALAH: getStatusDescription harus tahu ada 3 tipe player berbeda
-    func getCurrentStatus() -> String {
-        if musicPlayer.isPlaying { return musicPlayer.getStatusDescription() }
-        if podcastPlayer.isPlaying { return podcastPlayer.getStatusDescription() }
-        if radioPlayer.isPlaying { return radioPlayer.getStatusDescription() }
-        return "Nothing playing"
-    }
 
     init() {
         setupSampleData()
@@ -53,9 +30,6 @@ class MusicAppViewModel: ObservableObject {
             Podcast(title: "SwiftUI Tips & Tricks", host: "Hacking with Swift", duration: 1800, episodeNumber: 88, coverArt: "waveform")
         ]
         podcastPlayer.currentPodcast = podcastPlayer.episodes.first
-
-        // Setup radio
-        radioPlayer.currentStation = RadioStation(name: "Jazz FM", genre: "Jazz", streamURL: "https://stream.jazz.fm", logoName: "radio")
 
         // ❌ BUG: Volume bisa diset ke nilai invalid, dan tidak ada yang mencegah!
         musicPlayer.volume = 1.5  // INI VALID PADAHAL HARUSNYA TIDAK! Volume max harusnya 1.0

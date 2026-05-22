@@ -1,13 +1,14 @@
 import Foundation
+import Combine
 
-class PodcastPlayer {
-    var currentPodcast: Podcast?
-    var isPlaying: Bool = false      // ❌ DUPLIKAT dari MusicPlayer
-    var volume: Double = 0.5         // ❌ DUPLIKAT dari MusicPlayer
-    var currentTime: Double = 0      // ❌ DUPLIKAT dari MusicPlayer
-    var episodes: [Podcast] = []
-    var currentIndex: Int = 0        // ❌ DUPLIKAT dari MusicPlayer
-    var playbackSpeed: Double = 1.0  // Ini yang unik untuk Podcast
+class PodcastPlayer: ObservableObject {
+    @Published var currentPodcast: Podcast?
+    @Published var isPlaying: Bool = false      // ❌ DUPLIKAT dari MusicPlayer
+    @Published var volume: Double = 0.5         // ❌ DUPLIKAT dari MusicPlayer
+    @Published var currentTime: Double = 0      // ❌ DUPLIKAT dari MusicPlayer
+    @Published var episodes: [Podcast] = []
+    @Published var currentIndex: Int = 0        // ❌ DUPLIKAT dari MusicPlayer
+    @Published var playbackSpeed: Double = 1.0  // Ini yang unik untuk Podcast
 
     func play() {                    // ❌ DUPLIKAT dari MusicPlayer
         isPlaying = true
@@ -53,5 +54,9 @@ class PodcastPlayer {
 
     func skipForward30() {
         currentTime += 30
+    }
+
+    func skipBackward30() {
+        currentTime = max(0, currentTime - 30)
     }
 }

@@ -1,16 +1,17 @@
 import Foundation
+import Combine
 
 // ❌ MASALAH BESAR: MusicPlayer dan PodcastPlayer adalah CLASS TERPISAH
 //    yang tidak punya hubungan apapun, padahal keduanya adalah "player"
 //    dan punya banyak behavior yang sama persis!
 
-class MusicPlayer {
-    var currentSong: Song?
-    var isPlaying: Bool = false
-    var volume: Double = 0.5
-    var currentTime: Double = 0
-    var playlist: [Song] = []
-    var currentIndex: Int = 0
+class MusicPlayer: ObservableObject {
+    @Published var currentSong: Song?
+    @Published var isPlaying: Bool = false
+    @Published var volume: Double = 0.5
+    @Published var currentTime: Double = 0
+    @Published var playlist: [Song] = []
+    @Published var currentIndex: Int = 0
 
     // ❌ MASALAH ENCAPSULATION: volume bisa diset 999.0 dari luar!
     // Tidak ada yang mencegah: musicPlayer.volume = 999.0

@@ -3,8 +3,7 @@ import SwiftUI
 // ❌ MASALAH: MusicTabView dan PodcastTabView sangat mirip strukturnya
 //    tapi tidak bisa di-reuse karena tidak ada abstraksi/protocol yang sama
 struct MusicTabView: View {
-    let player: MusicPlayer
-    let viewModel: MusicAppViewModel
+    @ObservedObject var player: MusicPlayer
 
     var body: some View {
         NavigationStack {
@@ -23,23 +22,23 @@ struct MusicTabView: View {
                 // ❌ MASALAH: Controls ini hampir sama dengan PodcastTabView
                 //    tapi tidak bisa di-share karena beda tipe
                 HStack(spacing: 40) {
-                    Button(action: { viewModel.musicPlayer.previousTrack() }) {
+                    Button(action: { player.previousTrack() }) {
                         Image(systemName: "backward.fill")
                             .font(.title)
                     }
 
                     Button(action: {
                         if player.isPlaying {
-                            viewModel.musicPlayer.pause()
+                            player.pause()
                         } else {
-                            viewModel.musicPlayer.play()
+                            player.play()
                         }
                     }) {
                         Image(systemName: player.isPlaying ? "pause.circle.fill" : "play.circle.fill")
                             .font(.system(size: 64))
                     }
 
-                    Button(action: { viewModel.musicPlayer.nextTrack() }) {
+                    Button(action: { player.nextTrack() }) {
                         Image(systemName: "forward.fill")
                             .font(.title)
                     }
@@ -49,7 +48,7 @@ struct MusicTabView: View {
                 // Volume Slider
                 VolumeSlider(volume: Binding(
                     get: { player.volume },
-                    set: { viewModel.musicPlayer.setVolume($0) }
+                    set: { player.setVolume($0) }
                 ))
 
                 Divider().padding(.vertical, 8)

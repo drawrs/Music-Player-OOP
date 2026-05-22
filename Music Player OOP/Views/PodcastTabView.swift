@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct PodcastTabView: View {
-    let player: PodcastPlayer
-    let viewModel: MusicAppViewModel
+    @ObservedObject var player: PodcastPlayer
 
     var body: some View {
         NavigationStack {
@@ -18,23 +17,23 @@ struct PodcastTabView: View {
 
                 // ❌ HAMPIR SAMA dengan Music controls tapi tidak bisa di-share!
                 HStack(spacing: 40) {
-                    Button(action: { viewModel.podcastPlayer.skipForward30() }) {
+                    Button(action: { player.skipBackward30() }) {
                         Image(systemName: "gobackward.30")
                             .font(.title)
                     }
 
                     Button(action: {
                         if player.isPlaying {
-                            viewModel.podcastPlayer.pause()
+                            player.pause()
                         } else {
-                            viewModel.podcastPlayer.play()
+                            player.play()
                         }
                     }) {
                         Image(systemName: player.isPlaying ? "pause.circle.fill" : "play.circle.fill")
                             .font(.system(size: 64))
                     }
 
-                    Button(action: { viewModel.podcastPlayer.skipForward30() }) {
+                    Button(action: { player.skipForward30() }) {
                         Image(systemName: "goforward.30")
                             .font(.title)
                     }
@@ -46,7 +45,7 @@ struct PodcastTabView: View {
                     Text("Speed:")
                     ForEach([0.5, 1.0, 1.5, 2.0], id: \.self) { speed in
                         Button("\(speed)x") {
-                            viewModel.podcastPlayer.setPlaybackSpeed(speed)
+                            player.setPlaybackSpeed(speed)
                         }
                         .buttonStyle(.bordered)
                         .tint(player.playbackSpeed == speed ? .blue : .gray)
@@ -56,7 +55,7 @@ struct PodcastTabView: View {
 
                 VolumeSlider(volume: Binding(
                     get: { player.volume },
-                    set: { viewModel.podcastPlayer.setVolume($0) }
+                    set: { player.setVolume($0) }
                 ))
 
                 Divider().padding(.vertical, 8)
