@@ -3,6 +3,10 @@ import SwiftUI
 struct PodcastTabView: View {
     @ObservedObject var player: PodcastPlayer
 
+    private func speedLabel(for speed: Double) -> String {
+        String(format: "%.1fx", speed)
+    }
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -44,7 +48,7 @@ struct PodcastTabView: View {
                 HStack {
                     Text("Speed:")
                     ForEach([0.5, 1.0, 1.5, 2.0], id: \.self) { speed in
-                        Button("\(speed)x") {
+                        Button(speedLabel(for: speed)) {
                             player.setPlaybackSpeed(speed)
                         }
                         .buttonStyle(.bordered)
