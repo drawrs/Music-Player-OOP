@@ -28,11 +28,7 @@ struct MusicTabView: View {
                     }
 
                     Button(action: {
-                        if player.isPlaying {
-                            player.pause()
-                        } else {
-                            player.play()
-                        }
+                        player.togglePlayback()
                     }) {
                         Image(systemName: player.isPlaying ? "pause.circle.fill" : "play.circle.fill")
                             .font(.system(size: 64))
@@ -46,10 +42,7 @@ struct MusicTabView: View {
                 .padding()
 
                 // Volume Slider
-                VolumeSlider(volume: Binding(
-                    get: { player.volume },
-                    set: { player.setVolume($0) }
-                ))
+                VolumeSlider(volume: volumeBinding(for: player))
 
                 Divider().padding(.vertical, 8)
 

@@ -8,6 +8,16 @@ protocol Playable {
     func stop()
 }
 
+extension Playable {
+    func togglePlayback() {
+        if isPlaying {
+            pause()
+        } else {
+            play()
+        }
+    }
+}
+
 protocol VolumeControllable {
     var volume: Double { get }
 
