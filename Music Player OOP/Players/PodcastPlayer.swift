@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-class PodcastPlayer: ObservableObject {
+class PodcastPlayer: ObservableObject, Playable, VolumeControllable, Seekable {
     @Published var currentPodcast: Podcast?
     @Published var isPlaying: Bool = false      // ❌ DUPLIKAT dari MusicPlayer
     @Published private(set) var volume: Double = 0.5         // ❌ DUPLIKAT dari MusicPlayer

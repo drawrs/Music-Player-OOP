@@ -5,7 +5,7 @@ import Combine
 //    yang tidak punya hubungan apapun, padahal keduanya adalah "player"
 //    dan punya banyak behavior yang sama persis!
 
-class MusicPlayer: ObservableObject {
+class MusicPlayer: ObservableObject, Playable, VolumeControllable, Seekable {
     @Published var currentSong: Song?
     @Published var isPlaying: Bool = false
     @Published private(set) var volume: Double = 0.5
