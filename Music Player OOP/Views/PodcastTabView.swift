@@ -78,8 +78,7 @@ struct PodcastTabView: View {
 
                         Spacer()
 
-                        // ❌ DUPLIKAT lagi - formatTime di Podcast player juga sama!
-                        Text(player.formatTime(Double(episode.duration)))
+                        Text(PlaybackTimeFormatter.format(seconds: Double(episode.duration)))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

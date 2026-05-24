@@ -68,8 +68,7 @@ struct MusicTabView: View {
 
                         Spacer()
 
-                        // ❌ Memanggil formatTime dari player - tapi method ini DUPLIKAT!
-                        Text(player.formatTime(Double(song.duration)))
+                        Text(PlaybackTimeFormatter.format(seconds: Double(song.duration)))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

@@ -63,13 +63,6 @@ class MusicPlayer: ObservableObject {
         }
     }
 
-    func formatTime(_ seconds: Double) -> String {
-        let mins = Int(seconds) / 60
-        let secs = Int(seconds) % 60
-        return String(format: "%02d:%02d", mins, secs)
-        // ❌ MASALAH: Fungsi ini DUPLIKAT persis di PodcastPlayer!
-    }
-
     func getStatusDescription() -> String {
         return "Music: \(isPlaying ? "Playing" : "Paused") | Vol: \(Int(volume * 100))%"
         // ❌ MASALAH: Logic ini DUPLIKAT di PodcastPlayer dengan sedikit beda
