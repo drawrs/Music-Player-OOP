@@ -6,7 +6,7 @@ class PodcastPlayer: ObservableObject {
     @Published var isPlaying: Bool = false      // ❌ DUPLIKAT dari MusicPlayer
     @Published private(set) var volume: Double = 0.5         // ❌ DUPLIKAT dari MusicPlayer
     @Published private(set) var currentTime: Double = 0      // ❌ DUPLIKAT dari MusicPlayer
-    @Published var episodes: [Podcast] = []
+    @Published private(set) var episodes: [Podcast] = []
     @Published private(set) var currentIndex: Int = 0        // ❌ DUPLIKAT dari MusicPlayer
     @Published var playbackSpeed: Double = 1.0  // Ini yang unik untuk Podcast
 
@@ -32,6 +32,14 @@ class PodcastPlayer: ObservableObject {
 
     func seek(to time: Double) {
         currentTime = max(0, time)
+    }
+
+    func loadEpisodes(_ podcasts: [Podcast]) {
+        episodes = podcasts
+        currentIndex = 0
+        currentPodcast = podcasts.first
+        currentTime = 0
+        isPlaying = false
     }
 
     func selectEpisode(at index: Int) {

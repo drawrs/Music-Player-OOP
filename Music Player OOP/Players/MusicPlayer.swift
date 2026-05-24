@@ -10,7 +10,7 @@ class MusicPlayer: ObservableObject {
     @Published var isPlaying: Bool = false
     @Published private(set) var volume: Double = 0.5
     @Published private(set) var currentTime: Double = 0
-    @Published var playlist: [Song] = []
+    @Published private(set) var playlist: [Song] = []
     @Published private(set) var currentIndex: Int = 0
 
     func play() {
@@ -35,6 +35,14 @@ class MusicPlayer: ObservableObject {
 
     func seek(to time: Double) {
         currentTime = max(0, time)
+    }
+
+    func loadPlaylist(_ songs: [Song]) {
+        playlist = songs
+        currentIndex = 0
+        currentSong = songs.first
+        currentTime = 0
+        isPlaying = false
     }
 
     func selectTrack(at index: Int) {
