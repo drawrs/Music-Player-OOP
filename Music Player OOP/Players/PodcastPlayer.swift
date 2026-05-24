@@ -4,10 +4,10 @@ import Combine
 class PodcastPlayer: ObservableObject {
     @Published var currentPodcast: Podcast?
     @Published var isPlaying: Bool = false      // ❌ DUPLIKAT dari MusicPlayer
-    @Published var volume: Double = 0.5         // ❌ DUPLIKAT dari MusicPlayer
-    @Published var currentTime: Double = 0      // ❌ DUPLIKAT dari MusicPlayer
+    @Published private(set) var volume: Double = 0.5         // ❌ DUPLIKAT dari MusicPlayer
+    @Published private(set) var currentTime: Double = 0      // ❌ DUPLIKAT dari MusicPlayer
     @Published var episodes: [Podcast] = []
-    @Published var currentIndex: Int = 0        // ❌ DUPLIKAT dari MusicPlayer
+    @Published private(set) var currentIndex: Int = 0        // ❌ DUPLIKAT dari MusicPlayer
     @Published var playbackSpeed: Double = 1.0  // Ini yang unik untuk Podcast
 
     func play() {                    // ❌ DUPLIKAT dari MusicPlayer
@@ -27,13 +27,22 @@ class PodcastPlayer: ObservableObject {
     }
 
     func setVolume(_ value: Double) { // ❌ DUPLIKAT dari MusicPlayer
-        volume = value
+        volume = min(max(value, 0.0), 1.0)
+    }
+
+    func seek(to time: Double) {
+        currentTime = max(0, time)
+    }
+
+    func selectEpisode(at index: Int) {
+        guard episodes.indices.contains(index) else { return }
+        currentIndex = index
+        currentPodcast = episodes[index]
     }
 
     func nextEpisode() {
         if currentIndex < episodes.count - 1 {
-            currentIndex += 1
-            currentPodcast = episodes[currentIndex]
+            selectEpisode(at: currentIndex + 1)
         }
     }
 
@@ -53,10 +62,10 @@ class PodcastPlayer: ObservableObject {
     }
 
     func skipForward30() {
-        currentTime += 30
+        seek(to: currentTime + 30)
     }
 
     func skipBackward30() {
-        currentTime = max(0, currentTime - 30)
+        seek(to: currentTime - 30)
     }
 }

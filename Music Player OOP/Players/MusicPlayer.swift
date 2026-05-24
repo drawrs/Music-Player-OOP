@@ -8,13 +8,10 @@ import Combine
 class MusicPlayer: ObservableObject {
     @Published var currentSong: Song?
     @Published var isPlaying: Bool = false
-    @Published var volume: Double = 0.5
-    @Published var currentTime: Double = 0
+    @Published private(set) var volume: Double = 0.5
+    @Published private(set) var currentTime: Double = 0
     @Published var playlist: [Song] = []
-    @Published var currentIndex: Int = 0
-
-    // ❌ MASALAH ENCAPSULATION: volume bisa diset 999.0 dari luar!
-    // Tidak ada yang mencegah: musicPlayer.volume = 999.0
+    @Published private(set) var currentIndex: Int = 0
 
     func play() {
         isPlaying = true
@@ -32,22 +29,29 @@ class MusicPlayer: ObservableObject {
         print("MusicPlayer: Stopped")
     }
 
-    // ❌ MASALAH: setVolume() ada, tapi volume property tetap bisa diakses langsung
     func setVolume(_ value: Double) {
-        volume = value  // Tidak ada validasi range 0.0 - 1.0 !
+        volume = min(max(value, 0.0), 1.0)
+    }
+
+    func seek(to time: Double) {
+        currentTime = max(0, time)
+    }
+
+    func selectTrack(at index: Int) {
+        guard playlist.indices.contains(index) else { return }
+        currentIndex = index
+        currentSong = playlist[index]
     }
 
     func nextTrack() {
         if currentIndex < playlist.count - 1 {
-            currentIndex += 1
-            currentSong = playlist[currentIndex]
+            selectTrack(at: currentIndex + 1)
         }
     }
 
     func previousTrack() {
         if currentIndex > 0 {
-            currentIndex -= 1
-            currentSong = playlist[currentIndex]
+            selectTrack(at: currentIndex - 1)
         }
     }
 
