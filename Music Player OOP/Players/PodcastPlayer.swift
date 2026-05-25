@@ -7,6 +7,19 @@ class PodcastPlayer: BasePlayer {
     @Published private(set) var currentIndex: Int = 0
     @Published var playbackSpeed: Double = 1.0  // Ini yang unik untuk Podcast
 
+    var nowPlayingArtworkName: String {
+        currentPodcast?.coverArt ?? "mic.circle"
+    }
+
+    var nowPlayingTitle: String {
+        currentPodcast?.title ?? "No Podcast Selected"
+    }
+
+    var nowPlayingSubtitle: String {
+        guard let podcast = currentPodcast else { return "Choose an episode to start" }
+        return "by \(podcast.host) • Ep. \(podcast.episodeNumber)"
+    }
+
     override func play() {
         super.play()
         print("PodcastPlayer: Playing \(currentPodcast?.title ?? "nothing")")

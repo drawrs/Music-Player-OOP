@@ -10,14 +10,12 @@ struct PodcastTabView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                if let podcast = player.currentPodcast {
-                    NowPlayingCard(
-                        artworkName: podcast.coverArt,
-                        title: podcast.title,
-                        subtitle: "by \(podcast.host) • Ep. \(podcast.episodeNumber)",
-                        isPlaying: player.isPlaying
-                    )
-                }
+                NowPlayingCard(
+                    artworkName: player.nowPlayingArtworkName,
+                    title: player.nowPlayingTitle,
+                    subtitle: player.nowPlayingSubtitle,
+                    isPlaying: player.isPlaying
+                )
 
                 // ❌ HAMPIR SAMA dengan Music controls tapi tidak bisa di-share!
                 HStack(spacing: 40) {

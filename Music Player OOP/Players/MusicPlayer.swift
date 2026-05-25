@@ -10,6 +10,18 @@ class MusicPlayer: BasePlayer {
     @Published private(set) var playlist: [Song] = []
     @Published private(set) var currentIndex: Int = 0
 
+    var nowPlayingArtworkName: String {
+        currentSong?.albumArt ?? "music.note"
+    }
+
+    var nowPlayingTitle: String {
+        currentSong?.title ?? "No Song Selected"
+    }
+
+    var nowPlayingSubtitle: String {
+        currentSong?.artist ?? "Choose a track to start"
+    }
+
     override func play() {
         super.play()
         print("MusicPlayer: Playing \(currentSong?.title ?? "nothing")")

@@ -8,15 +8,12 @@ struct MusicTabView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Now Playing Card
-                if let song = player.currentSong {
-                    NowPlayingCard(
-                        artworkName: song.albumArt,
-                        title: song.title,
-                        subtitle: song.artist,
-                        isPlaying: player.isPlaying
-                    )
-                }
+                NowPlayingCard(
+                    artworkName: player.nowPlayingArtworkName,
+                    title: player.nowPlayingTitle,
+                    subtitle: player.nowPlayingSubtitle,
+                    isPlaying: player.isPlaying
+                )
 
                 // Controls
                 // ❌ MASALAH: Controls ini hampir sama dengan PodcastTabView
