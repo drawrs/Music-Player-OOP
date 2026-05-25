@@ -5,44 +5,31 @@ import Combine
 //    yang tidak punya hubungan apapun, padahal keduanya adalah "player"
 //    dan punya banyak behavior yang sama persis!
 
-class MusicPlayer: ObservableObject, Playable, VolumeControllable, Seekable {
+class MusicPlayer: BasePlayer {
     @Published var currentSong: Song?
-    @Published var isPlaying: Bool = false
-    @Published private(set) var volume: Double = 0.5
-    @Published private(set) var currentTime: Double = 0
     @Published private(set) var playlist: [Song] = []
     @Published private(set) var currentIndex: Int = 0
 
-    func play() {
-        isPlaying = true
+    override func play() {
+        super.play()
         print("MusicPlayer: Playing \(currentSong?.title ?? "nothing")")
     }
 
-    func pause() {
-        isPlaying = false
+    override func pause() {
+        super.pause()
         print("MusicPlayer: Paused")
     }
 
-    func stop() {
-        isPlaying = false
-        currentTime = 0
+    override func stop() {
+        super.stop()
         print("MusicPlayer: Stopped")
-    }
-
-    func setVolume(_ value: Double) {
-        volume = min(max(value, 0.0), 1.0)
-    }
-
-    func seek(to time: Double) {
-        currentTime = max(0, time)
     }
 
     func loadPlaylist(_ songs: [Song]) {
         playlist = songs
         currentIndex = 0
         currentSong = songs.first
-        currentTime = 0
-        isPlaying = false
+        stop()
     }
 
     func selectTrack(at index: Int) {
