@@ -1,6 +1,5 @@
 import SwiftUI
 
-// ✅ Ini sudah reusable dengan baik
 struct NowPlayingCard: View {
     let artworkName: String
     let title: String

@@ -7,6 +7,4 @@ struct Podcast {
     var episodeNumber: Int
     var coverArt: String
 
-    // ❌ MASALAH SAMA: episodeNumber bisa diset ke nilai negatif
-    // Tidak ada proteksi data sama sekali
 }

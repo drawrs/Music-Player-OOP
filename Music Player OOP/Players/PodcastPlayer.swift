@@ -3,30 +3,30 @@ import Combine
 
 class PodcastPlayer: ObservableObject {
     @Published var currentPodcast: Podcast?
-    @Published var isPlaying: Bool = false      // ❌ DUPLIKAT dari MusicPlayer
-    @Published var volume: Double = 0.5         // ❌ DUPLIKAT dari MusicPlayer
-    @Published var currentTime: Double = 0      // ❌ DUPLIKAT dari MusicPlayer
+    @Published var isPlaying: Bool = false
+    @Published var volume: Double = 0.5
+    @Published var currentTime: Double = 0
     @Published var episodes: [Podcast] = []
-    @Published var currentIndex: Int = 0        // ❌ DUPLIKAT dari MusicPlayer
-    @Published var playbackSpeed: Double = 1.0  // Ini yang unik untuk Podcast
+    @Published var currentIndex: Int = 0
+    @Published var playbackSpeed: Double = 1.0
 
-    func play() {                    // ❌ DUPLIKAT dari MusicPlayer
+    func play() {
         isPlaying = true
         print("PodcastPlayer: Playing \(currentPodcast?.title ?? "nothing")")
     }
 
-    func pause() {                   // ❌ DUPLIKAT dari MusicPlayer
+    func pause() {
         isPlaying = false
         print("PodcastPlayer: Paused")
     }
 
-    func stop() {                    // ❌ DUPLIKAT dari MusicPlayer
+    func stop() {
         isPlaying = false
         currentTime = 0
         print("PodcastPlayer: Stopped")
     }
 
-    func setVolume(_ value: Double) { // ❌ DUPLIKAT dari MusicPlayer
+    func setVolume(_ value: Double) {
         volume = value
     }
 
@@ -37,14 +37,13 @@ class PodcastPlayer: ObservableObject {
         }
     }
 
-    func formatTime(_ seconds: Double) -> String {  // ❌ DUPLIKAT PERSIS dari MusicPlayer!
+    func formatTime(_ seconds: Double) -> String {
         let mins = Int(seconds) / 60
         let secs = Int(seconds) % 60
         return String(format: "%02d:%02d", mins, secs)
     }
 
     func getStatusDescription() -> String {
-        // ❌ DUPLIKAT dengan sedikit modifikasi - susah di-maintain!
         return "Podcast: \(isPlaying ? "Playing" : "Paused") | Vol: \(Int(volume * 100))% | Speed: \(playbackSpeed)x"
     }
 

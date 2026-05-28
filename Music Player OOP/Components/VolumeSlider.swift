@@ -1,6 +1,5 @@
 import SwiftUI
 
-// ✅ Ini juga sudah reusable
 struct VolumeSlider: View {
     @Binding var volume: Double
 

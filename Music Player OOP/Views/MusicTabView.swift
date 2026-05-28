@@ -1,7 +1,5 @@
 import SwiftUI
 
-// ❌ MASALAH: MusicTabView dan PodcastTabView sangat mirip strukturnya
-//    tapi tidak bisa di-reuse karena tidak ada abstraksi/protocol yang sama
 struct MusicTabView: View {
     @ObservedObject var player: MusicPlayer
 
@@ -19,8 +17,6 @@ struct MusicTabView: View {
                 }
 
                 // Controls
-                // ❌ MASALAH: Controls ini hampir sama dengan PodcastTabView
-                //    tapi tidak bisa di-share karena beda tipe
                 HStack(spacing: 40) {
                     Button(action: { player.previousTrack() }) {
                         Image(systemName: "backward.fill")
@@ -68,7 +64,6 @@ struct MusicTabView: View {
 
                         Spacer()
 
-                        // ❌ Memanggil formatTime dari player - tapi method ini DUPLIKAT!
                         Text(player.formatTime(Double(song.duration)))
                             .font(.caption)
                             .foregroundStyle(.secondary)

@@ -19,7 +19,6 @@ struct PodcastTabView: View {
                     )
                 }
 
-                // ❌ HAMPIR SAMA dengan Music controls tapi tidak bisa di-share!
                 HStack(spacing: 40) {
                     Button(action: { player.skipBackward30() }) {
                         Image(systemName: "gobackward.30")
@@ -78,7 +77,6 @@ struct PodcastTabView: View {
 
                         Spacer()
 
-                        // ❌ DUPLIKAT lagi - formatTime di Podcast player juga sama!
                         Text(player.formatTime(Double(episode.duration)))
                             .font(.caption)
                             .foregroundStyle(.secondary)

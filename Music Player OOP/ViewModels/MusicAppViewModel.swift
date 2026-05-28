@@ -1,8 +1,6 @@
 import SwiftUI
 import Combine
 
-// Versi latihan ini sengaja disederhanakan agar fokus pembelajaran tetap di
-// encapsulation, abstraction, inheritance, dan protocol.
 class MusicAppViewModel: ObservableObject {
     let musicPlayer = MusicPlayer()
     let podcastPlayer = PodcastPlayer()
@@ -31,7 +29,6 @@ class MusicAppViewModel: ObservableObject {
         ]
         podcastPlayer.currentPodcast = podcastPlayer.episodes.first
 
-        // ❌ BUG: Volume bisa diset ke nilai invalid, dan tidak ada yang mencegah!
-        musicPlayer.volume = 1.5  // INI VALID PADAHAL HARUSNYA TIDAK! Volume max harusnya 1.0
+        musicPlayer.volume = 1.5
     }
 }
