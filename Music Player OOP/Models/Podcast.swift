@@ -19,8 +19,7 @@ struct Podcast {
         episodeNumber += 1
     }
     
-    mutating func incrementDuration(by amount: Int) {
-        guard amount > 0 else { return }
-        duration += amount
+    mutating func changeDuration(by amount: Int) {
+        self.duration = max(0, duration)
     }
 }

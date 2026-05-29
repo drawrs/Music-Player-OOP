@@ -19,6 +19,9 @@ class MusicAppViewModel: ObservableObject {
             Song(title: "Imagine", artist: "John Lennon", duration: 187, albumArt: "music.mic"),
             Song(title: "Stairway to Heaven", artist: "Led Zeppelin", duration: 482, albumArt: "music.quarternote.3")
         ]
+        // Example modifying encapsulated data using its internal function
+        musicPlayer.playlist[0].changeDuration(to: 20)
+        
         musicPlayer.currentSong = musicPlayer.playlist.first
 
         // Setup podcasts
