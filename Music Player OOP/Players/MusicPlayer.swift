@@ -29,6 +29,11 @@ class MusicPlayer: ObservableObject {
         volume = value
     }
 
+    func seekTo(_ time: Double) {
+        guard let song = currentSong else { return }
+        currentTime = min(max(0, time), Double(song.duration))
+    }
+
     func nextTrack() {
         if currentIndex < playlist.count - 1 {
             currentIndex += 1

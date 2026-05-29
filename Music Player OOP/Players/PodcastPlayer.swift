@@ -30,6 +30,11 @@ class PodcastPlayer: ObservableObject {
         volume = value
     }
 
+    func seekTo(_ time: Double) {
+        guard let podcast = currentPodcast else { return }
+        currentTime = min(max(0, time), Double(podcast.duration))
+    }
+
     func nextEpisode() {
         if currentIndex < episodes.count - 1 {
             currentIndex += 1

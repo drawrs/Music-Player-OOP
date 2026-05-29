@@ -56,6 +56,31 @@ struct PodcastTabView: View {
                 }
                 .padding()
 
+                // Duration Slider
+                VStack(spacing: 4) {
+                    Slider(
+                        value: Binding(
+                            get: { player.currentTime },
+                            set: { player.seekTo($0) }
+                        ),
+                        in: 0...Double(player.currentPodcast?.duration ?? 1)
+                    )
+                    .tint(.purple)
+                    .padding(.horizontal)
+
+                    HStack {
+                        Text(player.formatTime(player.currentTime))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(player.formatTime(Double(player.currentPodcast?.duration ?? 0)))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.vertical, 4)
+
                 VolumeSlider(volume: Binding(
                     get: { player.volume },
                     set: { player.setVolume($0) }

@@ -41,6 +41,31 @@ struct MusicTabView: View {
                 }
                 .padding()
 
+                // Duration Slider
+                VStack(spacing: 4) {
+                    Slider(
+                        value: Binding(
+                            get: { player.currentTime },
+                            set: { player.seekTo($0) }
+                        ),
+                        in: 0...Double(player.currentSong?.duration ?? 1)
+                    )
+                    .tint(.blue)
+                    .padding(.horizontal)
+
+                    HStack {
+                        Text(player.formatTime(player.currentTime))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(player.formatTime(Double(player.currentSong?.duration ?? 0)))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.vertical, 4)
+
                 // Volume Slider
                 VolumeSlider(volume: Binding(
                     get: { player.volume },
