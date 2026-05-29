@@ -1,33 +1,30 @@
 import Foundation
 import Combine
 
-class MusicPlayer: ObservableObject {
+// MusicPlayer inherits shared playback state and controls from BasePlayer
+class MusicPlayer: BasePlayer {
     @Published var currentSong: Song?
-    @Published var isPlaying: Bool = false
-    @Published var volume: Double = 0.5
-    @Published var currentTime: Double = 0
     @Published var playlist: [Song] = []
-    @Published var currentIndex: Int = 0
 
-    func play() {
+    // MARK: - Playback Controls (overriding base behavior)
+
+    override func play() {
         isPlaying = true
         print("MusicPlayer: Playing \(currentSong?.title ?? "nothing")")
     }
 
-    func pause() {
+    override func pause() {
         isPlaying = false
         print("MusicPlayer: Paused")
     }
 
-    func stop() {
+    override func stop() {
         isPlaying = false
         currentTime = 0
         print("MusicPlayer: Stopped")
     }
 
-    func setVolume(_ value: Double) {
-        volume = value
-    }
+    // MARK: - Song-specific Methods
 
     func seekTo(_ time: Double) {
         guard let song = currentSong else { return }
@@ -54,13 +51,9 @@ class MusicPlayer: ObservableObject {
         currentSong = playlist[index]
     }
 
-    func formatTime(_ seconds: Double) -> String {
-        let mins = Int(seconds) / 60
-        let secs = Int(seconds) % 60
-        return String(format: "%02d:%02d", mins, secs)
-    }
+    // MARK: - Status
 
-    func getStatusDescription() -> String {
+    override func getStatusDescription() -> String {
         return "Music: \(isPlaying ? "Playing" : "Paused") | Vol: \(Int(volume * 100))%"
     }
 }

@@ -1,34 +1,32 @@
 import Foundation
 import Combine
 
-class PodcastPlayer: ObservableObject {
+// PodcastPlayer inherits shared playback state and controls from BasePlayer,
+// and adds podcast-specific features like playback speed and episode skipping.
+class PodcastPlayer: BasePlayer {
     @Published var currentPodcast: Podcast?
-    @Published var isPlaying: Bool = false
-    @Published var volume: Double = 0.5
-    @Published var currentTime: Double = 0
     @Published var episodes: [Podcast] = []
-    @Published var currentIndex: Int = 0
     @Published var playbackSpeed: Double = 1.0
 
-    func play() {
+    // MARK: - Playback Controls (overriding base behavior)
+
+    override func play() {
         isPlaying = true
         print("PodcastPlayer: Playing \(currentPodcast?.title ?? "nothing")")
     }
 
-    func pause() {
+    override func pause() {
         isPlaying = false
         print("PodcastPlayer: Paused")
     }
 
-    func stop() {
+    override func stop() {
         isPlaying = false
         currentTime = 0
         print("PodcastPlayer: Stopped")
     }
 
-    func setVolume(_ value: Double) {
-        volume = value
-    }
+    // MARK: - Episode-specific Methods
 
     func seekTo(_ time: Double) {
         guard let podcast = currentPodcast else { return }
@@ -48,16 +46,6 @@ class PodcastPlayer: ObservableObject {
         currentPodcast = episodes[index]
     }
 
-    func formatTime(_ seconds: Double) -> String {
-        let mins = Int(seconds) / 60
-        let secs = Int(seconds) % 60
-        return String(format: "%02d:%02d", mins, secs)
-    }
-
-    func getStatusDescription() -> String {
-        return "Podcast: \(isPlaying ? "Playing" : "Paused") | Vol: \(Int(volume * 100))% | Speed: \(playbackSpeed)x"
-    }
-
     func setPlaybackSpeed(_ speed: Double) {
         playbackSpeed = speed
     }
@@ -68,5 +56,11 @@ class PodcastPlayer: ObservableObject {
 
     func skipBackward30() {
         currentTime = max(0, currentTime - 30)
+    }
+
+    // MARK: - Status
+
+    override func getStatusDescription() -> String {
+        return "Podcast: \(isPlaying ? "Playing" : "Paused") | Vol: \(Int(volume * 100))% | Speed: \(playbackSpeed)x"
     }
 }
