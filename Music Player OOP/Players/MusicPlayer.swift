@@ -22,6 +22,18 @@ class MusicPlayer: BasePlayer {
         currentSong?.artist ?? "Choose a track to start"
     }
 
+    override var miniPlayerArtworkName: String {
+        nowPlayingArtworkName
+    }
+
+    override var miniPlayerTitle: String {
+        nowPlayingTitle
+    }
+
+    override var miniPlayerSubtitle: String {
+        nowPlayingSubtitle
+    }
+
     override func play() {
         super.play()
         print("MusicPlayer: Playing \(currentSong?.title ?? "nothing")")

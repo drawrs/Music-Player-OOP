@@ -1,10 +1,11 @@
 import Foundation
 import Combine
 
-class PodcastPlayer: BasePlayer {
+class PodcastPlayer: BasePlayer, Seekable {
     @Published var currentPodcast: Podcast?
     @Published private(set) var episodes: [Podcast] = []
     @Published private(set) var currentIndex: Int = 0
+    @Published private(set) var currentTime: Double = 0
     @Published var playbackSpeed: Double = 1.0  // Ini yang unik untuk Podcast
 
     var nowPlayingArtworkName: String {
@@ -20,6 +21,22 @@ class PodcastPlayer: BasePlayer {
         return "by \(podcast.host) • Ep. \(podcast.episodeNumber)"
     }
 
+    override var miniPlayerArtworkName: String {
+        nowPlayingArtworkName
+    }
+
+    override var miniPlayerTitle: String {
+        nowPlayingTitle
+    }
+
+    override var miniPlayerSubtitle: String {
+        nowPlayingSubtitle
+    }
+
+    var seekDuration: Double {
+        Double(currentPodcast?.duration ?? 0)
+    }
+
     override func play() {
         super.play()
         print("PodcastPlayer: Playing \(currentPodcast?.title ?? "nothing")")
@@ -32,6 +49,7 @@ class PodcastPlayer: BasePlayer {
 
     override func stop() {
         super.stop()
+        currentTime = 0
         print("PodcastPlayer: Stopped")
     }
 
@@ -69,5 +87,10 @@ class PodcastPlayer: BasePlayer {
 
     func skipBackward30() {
         seek(to: currentTime - 30)
+    }
+
+    func seek(to time: Double) {
+        let upperBound = max(0, seekDuration)
+        currentTime = min(max(0, time), upperBound)
     }
 }

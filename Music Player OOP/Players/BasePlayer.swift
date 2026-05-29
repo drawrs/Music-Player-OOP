@@ -1,10 +1,21 @@
 import Foundation
 import Combine
 
-class BasePlayer: ObservableObject, Playable, VolumeControllable, Seekable {
+class BasePlayer: ObservableObject {
     @Published private(set) var isPlaying: Bool = false
     @Published private(set) var volume: Double = 0.5
-    @Published private(set) var currentTime: Double = 0
+
+    var miniPlayerArtworkName: String {
+        "play.circle"
+    }
+
+    var miniPlayerTitle: String {
+        "Nothing Playing"
+    }
+
+    var miniPlayerSubtitle: String {
+        "Choose something to start"
+    }
 
     func play() {
         isPlaying = true
@@ -16,14 +27,17 @@ class BasePlayer: ObservableObject, Playable, VolumeControllable, Seekable {
 
     func stop() {
         isPlaying = false
-        currentTime = 0
+    }
+
+    func togglePlayback() {
+        if isPlaying {
+            pause()
+        } else {
+            play()
+        }
     }
 
     func setVolume(_ value: Double) {
         volume = min(max(value, 0.0), 1.0)
-    }
-
-    func seek(to time: Double) {
-        currentTime = max(0, time)
     }
 }

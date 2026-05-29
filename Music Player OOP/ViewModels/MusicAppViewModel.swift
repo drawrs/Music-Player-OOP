@@ -9,6 +9,14 @@ class MusicAppViewModel: ObservableObject {
 
     @Published var currentTab: Int = 0
 
+    private var players: [BasePlayer] {
+        [musicPlayer, podcastPlayer]
+    }
+
+    var currentPlayer: BasePlayer {
+        players[currentTab]
+    }
+
     init() {
         setupSampleData()
     }
