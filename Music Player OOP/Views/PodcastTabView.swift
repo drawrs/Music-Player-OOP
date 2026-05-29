@@ -63,23 +63,37 @@ struct PodcastTabView: View {
 
                 Divider().padding(.vertical, 8)
 
-                List(player.episodes, id: \.title) { episode in
+                List(player.episodes.indices, id: \.self) { index in
+                    let episode = player.episodes[index]
+                    let isSelected = index == player.currentIndex
                     HStack {
                         Image(systemName: episode.coverArt)
                             .frame(width: 40, height: 40)
-                            .background(Color.purple.opacity(0.1))
+                            .background(isSelected ? Color.purple.opacity(0.2) : Color.purple.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: 8))
 
                         VStack(alignment: .leading) {
-                            Text(episode.title).font(.headline)
+                            Text(episode.title)
+                                .font(.headline)
+                                .foregroundStyle(isSelected ? .purple : .primary)
                             Text("Ep. \(episode.episodeNumber) • \(episode.host)").font(.caption).foregroundStyle(.secondary)
                         }
 
                         Spacer()
 
+                        if isSelected {
+                            Image(systemName: player.isPlaying ? "speaker.wave.2.fill" : "speaker.fill")
+                                .font(.caption)
+                                .foregroundStyle(.purple)
+                        }
+
                         Text(player.formatTime(Double(episode.duration)))
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        player.selectEpisode(at: index)
                     }
                 }
             }

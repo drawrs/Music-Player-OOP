@@ -37,6 +37,12 @@ class PodcastPlayer: ObservableObject {
         }
     }
 
+    func selectEpisode(at index: Int) {
+        guard index >= 0 && index < episodes.count else { return }
+        currentIndex = index
+        currentPodcast = episodes[index]
+    }
+
     func formatTime(_ seconds: Double) -> String {
         let mins = Int(seconds) / 60
         let secs = Int(seconds) % 60
