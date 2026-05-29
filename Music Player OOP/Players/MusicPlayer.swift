@@ -43,6 +43,12 @@ class MusicPlayer: ObservableObject {
         }
     }
 
+    func selectSong(at index: Int) {
+        guard index >= 0 && index < playlist.count else { return }
+        currentIndex = index
+        currentSong = playlist[index]
+    }
+
     func formatTime(_ seconds: Double) -> String {
         let mins = Int(seconds) / 60
         let secs = Int(seconds) % 60

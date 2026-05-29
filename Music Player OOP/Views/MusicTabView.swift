@@ -50,23 +50,37 @@ struct MusicTabView: View {
                 Divider().padding(.vertical, 8)
 
                 // Playlist
-                List(player.playlist, id: \.title) { song in
+                List(player.playlist.indices, id: \.self) { index in
+                    let song = player.playlist[index]
+                    let isSelected = index == player.currentIndex
                     HStack {
                         Image(systemName: song.albumArt)
                             .frame(width: 40, height: 40)
-                            .background(Color.blue.opacity(0.1))
+                            .background(isSelected ? Color.blue.opacity(0.2) : Color.blue.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: 8))
 
                         VStack(alignment: .leading) {
-                            Text(song.title).font(.headline)
+                            Text(song.title)
+                                .font(.headline)
+                                .foregroundStyle(isSelected ? .blue : .primary)
                             Text(song.artist).font(.caption).foregroundStyle(.secondary)
                         }
 
                         Spacer()
 
+                        if isSelected {
+                            Image(systemName: player.isPlaying ? "speaker.wave.2.fill" : "speaker.fill")
+                                .font(.caption)
+                                .foregroundStyle(.blue)
+                        }
+
                         Text(player.formatTime(Double(song.duration)))
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        player.selectSong(at: index)
                     }
                 }
             }
